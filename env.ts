@@ -22,6 +22,7 @@ export default Env.rules({
   MONGODB_URL: Env.schema.string(),
   MONGODB_DATABASE: Env.schema.string(),
   MONGODB_CONNECTION: Env.schema.string(),
+  ADMIN_KEY: Env.schema.string(),
   DRIVE_DISK: Env.schema.enum(["local"] as const),
   NODE_ENV: Env.schema.enum(["development", "production", "test"] as const),
 });

@@ -19,26 +19,14 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import { MongoClient } from "mongodb";
 
-Route.get("/test-db", async ({ response }) => {
-  try {
-    const client = new MongoClient(
-      process.env.MONGODB_URL || "mongodb://localhost:27017"
-    );
-    await client.connect();
-    const db = client.db(process.env.MONGODB_DATABASE);
-    const collections = await db.listCollections().toArray();
-    response.json({
-      status: "success",
-      message: "Database connected!",
-      collections,
-    });
-  } catch (error) {
-    response.status(500).json({
-      status: "error",
-      message: "Failed to connect to the database",
-      error: error.message,
-    });
-  }
-});
+Route.group(() => {
+  Route.get('/', 'MoviesController.index')
+  Route.get('/search', 'MoviesController.search')
+
+  Route.group(() => {
+    Route.post('/', 'MoviesController.store')
+    Route.put('/:id', 'MoviesController.update')
+    Route.delete('/:id', 'MoviesController.destroy')
+  }).middleware('admin')
+}).prefix('/movies')
