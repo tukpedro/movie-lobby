@@ -113,16 +113,6 @@ This project includes unit and functional tests.
   yarn test
   ```
 
-- **Run specific tests**:
-
-  ```bash
-  # Unit tests
-  npm run test:unit
-
-  # Functional tests
-  npm run test:functional
-  ```
-
 ## 📡 API Endpoints <a name="endpoints"></a>
 
 | Method | Endpoint                | Description                                | Authentication |
