@@ -7,8 +7,8 @@
     "build": "node ace build --production",
     "start": "node server.js",
     "test": "node ace test",
-    "test:unit": "node ace test tests/unit/*.spec.ts",
-    "test:functional": "node ace test tests/functional/*.spec.ts"
+    "test:unit": "node ace test --files tests/unit/MovieService.spec.ts",
+    "test:functional": "node ace test --files tests/functional/movies.spec.ts"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.9.6",
