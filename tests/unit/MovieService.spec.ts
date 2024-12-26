@@ -64,4 +64,54 @@ test.group("Movie Service", (group) => {
     assert.isTrue(results.length > 0);
     assert.equal(results[0].title, "Action Movie");
   });
+
+  test("should use cached results for repeated searches", async ({
+    assert,
+  }) => {
+    await movieService.create({
+      title: "Mafia Movie",
+      genre: "Crime",
+      rating: 8.5,
+      streamingLink: "https://test.com/movie1",
+    });
+
+    const firstSearchStart = Date.now();
+    const firstResults = await movieService.search("Mafia");
+    const firstSearchTime = Date.now() - firstSearchStart;
+
+    const secondSearchStart = Date.now();
+    const secondResults = await movieService.search("Mafia");
+    const secondSearchTime = Date.now() - secondSearchStart;
+
+    assert.deepEqual(firstResults, secondResults);
+    assert.isTrue(secondSearchTime < firstSearchTime);
+    assert.isTrue(secondResults.length > 0);
+    assert.equal(secondResults[0].title, "Mafia Movie");
+  });
+
+  test("should use cache for repeated searches", async ({ assert }) => {
+    await movieService.create({
+      title: "Mafia Movie",
+      genre: "Crime",
+      rating: 8.5,
+      streamingLink: "https://test.com/movie1",
+    });
+
+    const firstResults = await movieService.search("Mafia");
+
+    const secondResults = await movieService.search("Mafia");
+
+    assert.deepEqual(firstResults, secondResults);
+
+    await movieService.create({
+      title: "Another Mafia Movie",
+      genre: "Crime",
+      rating: 9.0,
+      streamingLink: "https://test.com/movie2",
+    });
+
+    const thirdResults = await movieService.search("Mafia");
+    assert.notDeepEqual(secondResults, thirdResults);
+    assert.equal(thirdResults.length, 2);
+  });
 });
