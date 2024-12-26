@@ -37,7 +37,10 @@ export default class MovieService {
       { $set: { ...movieData, updatedAt: new Date() } },
       { returnDocument: 'after' }
     )
-    return result?.value || null
+    if (!result) {
+      return null
+    }
+    return { ...result }
   }
 
   public async delete(id: string) {
