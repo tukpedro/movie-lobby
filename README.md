@@ -105,8 +105,30 @@ This guide will help you set up the project locally for development and testing.
 
 This project includes unit and functional tests.
 
-- **Run all tests**:
+### Prerequisites before running tests
 
+1. **Ensure MongoDB is running**
+   ```bash
+   # Start MongoDB container if not already running
+   docker run -d -p 27017:27017 --name mongodb mongo:6.0
+   
+   # Verify MongoDB container is running
+   docker ps
+   ```
+
+2. **Start the application in development mode**
+   ```bash
+   # This step is necessary to initialize the cache
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+3. **Wait a few seconds for the application to fully initialize**
+
+### Running the tests
+
+- **Run all tests**:
   ```bash
   npm test
   # or
@@ -114,7 +136,6 @@ This project includes unit and functional tests.
   ```
 
 - **Run specific tests**:
-
   ```bash
   # Unit tests
   npm run test:unit
@@ -122,6 +143,8 @@ This project includes unit and functional tests.
   # Functional tests
   npm run test:functional
   ```
+
+> **Note**: The tests rely on both a running MongoDB instance and initialized cache. Make sure to complete the prerequisites before running the tests to avoid false negatives, especially in cache-related tests.
 
 ## 📡 API Endpoints <a name="endpoints"></a>
 
